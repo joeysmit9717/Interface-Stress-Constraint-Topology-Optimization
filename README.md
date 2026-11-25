@@ -5,10 +5,12 @@ What this folder contains
 -------------------------
 
 This package contains the documentation and environments for producing the 
-computations and visualization for the (angle dependent) stress constraint in
-a multi-material (2 materials) topology optimization setting. The test setting remains constant:
+computations and visualization for the (angle dependent) interface stress constraint in
+a multi-material (2 materials) topology optimization setting where limits are set on tensile stresses within a material interface. 
+The test setting remains constant:
 96 x 48 elements and forces acting on the 7 right-most nodes on the bottom of the 
-component. 
+component. The weaker material (material 1) has a Young's modulus of 1 MPa and the stronger material
+(material 2) has a Young's modulus of 2 MPa.
 
   - **README.md**          - General overview of the project
   - **InterfaceStressConstraint.pdf**          - Report on the findings
@@ -18,7 +20,8 @@ Key Findings
 ------------
 
 While the compliance converged to similar values for both the angle-independent and the angle-dependent settings,
-the final designs show clear differences in the placement of the material interface.
+the final designs show clear differences in the placement of the material interface. The blue space is the weaker material (1 MPa)
+and the red material is the stronger one (2 MPa). 
 
 
 ![Final Design (angle independent)](Report/ISC17min240FinalDesign.png)
@@ -26,35 +29,22 @@ the final designs show clear differences in the placement of the material interf
 
 Python codes
 ------------
-  - **BearingFault.py**                 - train 0/1/3 HP, test 2 HP (FFT+time RF)
-  - **BearingFault021unknown.py**       - train 0.007/0.014/0.028", test 0.021"
-                                    (FFT+time RF)
-  - **BearingFaultDifferentApproach.py** - same 0.021" hold-out with
-                                    bandpass-envelope BPFO/BPFI/BSF RF
+  - **Helmholtz2materialsISC17Forces.py**        - Angle independent version
+  - **Helmholtz2materialsAngleForces.py**       - Angle dependent version
+  - **Helmholtz2materialsISC17vsAngle.py**     - Produces the compliance comparison plot
 
-Dataset
--------
-
-For this project the CWRU Bearing Data Centre .mat NORMAL BASELINE DATA and the 12k DRIVE END BEARING FAULT DATA were used. The total dataset consists of 61 .mat files, consisting of 1 NORMAL BASELINE DATA file and 60 BEARING FAULT DATA files. https://engineering.case.edu/bearingdatacenter/download-data-file
 
 What the analysis does
 ----------------------
-1. Load CWRU Drive End accelerometer .mat files (12 kHz) for Normal,
-   Ball, Inner Race (IR), and Outer Race (OR) across defect sizes and
-   motor loads. Skip missing OR014 @ 3:00/12:00 and OR028 files.
-2. Plot baseline 0.007" @ 0 HP time signals and FFT spectra; print
-   time-domain statistics (RMS, kurtosis, crest, etc.).
-3. Experiment A (BearingFault.py): non-overlapping 500-sample windows;
-   FFT magnitude + RMS/kurtosis/crest/P2P features; Random Forest
-   trained on loads {0,1,3} HP and tested on held-out 2 HP.
-4. Experiment B (BearingFault021unknown.py): same FFT+time features;
-   train on defect sizes {0.007, 0.014, 0.028}", test on held-out
-   0.021" (unknown bearing dent severity).
-5. Experiment C (BearingFaultDifferentApproach.py): same severity
-   split as experiment B; 2048-sample windows; 2-5 kHz bandpass -> Hilbert envelope;
-   narrowband energy at BPFO/BPFI/BSF harmonics (+ ratios, envelope
-   kurtosis/crest); Random Forest on 15 features.
-6. Report test accuracy, classification report, and confusion matrices.
+
+1. Adds an Interface Stress Constraint (ISC) to a multi-material topology
+  optimization setting.
+2. ISC split up in two version: constant stress limits within an interface and
+   an angle dependent version.
+3. Compares the compliance optimization trajectory for both cases and compares them.
+4. Visualizes final results in 2D and 3D plots and provides clear plots on the interfaces.
+   
+
 
 Generated python plots
 -----------------

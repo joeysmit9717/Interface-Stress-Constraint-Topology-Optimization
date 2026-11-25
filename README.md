@@ -21,7 +21,7 @@ While the compliance converged to similar values for both the angle-independent 
 the final designs show clear differences in the placement of the material interface.
 
 
-![Bearing Fault](Report/cm_unknown_load.png)
+![Final Design (angle independent)](Report/ISC17min240FinalDesign.png)
 
 
 Python codes

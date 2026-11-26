@@ -1,6 +1,12 @@
 # Interface-Stress-Constraint-Topology-Optimization
 This project covers the application of an Interface Stress Constraint in a multi-material topology optimization setting. Although the interface strength varies with the method of fabrication, the paper presents an indiscriminate method for handling angle dependent interface stresses.
 
+## Dataset & Attribution
+
+The dataset used in this project was obtained from its original source and is not owned or created by me. It is used for educational and portfolio purposes only.
+
+All rights and ownership of the original dataset remain with their respective owners. Please refer to the original source for licensing information and terms of use.
+
 What this folder contains
 -------------------------
 

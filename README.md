@@ -45,50 +45,26 @@ What the analysis does
 4. Visualizes final results in 2D and 3D plots and provides clear plots on the interfaces.
    
 
-
-Generated python plots
------------------
-  baseline_stats.png                 RMS / kurtosis / crest @ 0.007" 0 HP
-  time_signals_0_2000.png            Time signals, samples 0-2000
-  time_signals_10000_10500.png       Time signals, samples 10000-10500
-  time_signals_50000_50500.png       Time signals, samples 50000-50500
-  fft_magnitude_0_2000.png           FFT magnitude, samples 0-2000
-  fft_magnitude_10000_10500.png      FFT magnitude, samples 10000-10500
-  fft_magnitude_50000_50500.png      FFT magnitude, samples 50000-50500
-  cm_unknown_load.png                Confusion matrix (unknown 2 HP)
-  cm_unknown_severity_fft.png        Confusion matrix (0.021", FFT+time)
-  cm_unknown_severity_envelope.png   Confusion matrix (0.021", envelope)
-  accuracy_comparison.png            Head-to-head test accuracy bar chart
-                                   (portfolio summary figure for the report)
-
 How to regenerate the plots
 ---------------------------
 
--  BearingFault.py
--  BearingFault021unknown.py
--  BearingFaultDifferentApproach.py
+-  Helmholtz2materialsISC17Force.py    - Plots associated with angle independent ISC
+-  Helmholtz2materialsISCangleForces.py           - Plots associated with angle dependent ISC
+-  Helmholtz2materialsISC17vsAngle.py   - Compliance history comparison
 
 
 Requirements
 ------------
-Python 3.x with: numpy, matplotlib, scipy, scikit-learn, CWRU NORMAL BASELINE DATA and CWRU 12k DRIVE END BEARING FAULT DATA
+Python 3.x with: numpy, scipy, matplotlib, nlopt, joblib, and line_profiler.
 
-Key result snapshot (from last run)
+Key result snapshot 
 -----------------------------------
-  Datasets loaded: 61 (Normal baseline at 0 HP only — no Normal in tests)
 
-  Unknown load (train 0/1/3 HP → test 2 HP, FFT+time RF):
-    Test accuracy: 95.37%
-    Ball/OR nearly perfect; main errors IR → OR
+- Compliance remained similar when switching from an angle-independent to an angle-dependent ISC.
+ 
+- Final designs are visibly different, as interface areas are moved around to adapt to local stresses
 
-  Unknown severity (train 0.007/0.014/0.028" → test 0.021", FFT+time RF):
-    Test accuracy: 27.93%
-    Severe IR/OR confusion; broadband spectra do not transfer by size
+- code is optimized, but still takes a considirable amount of time to run. Nel_x at line 41 in Helmholtz2materialsISC17Forces.py sets
+  the amount of elements on the x-axis. While 24, 48 and 96 are easy to run, 96 elements takes several hours to complete.
 
-  Unknown severity (same split, envelope BPFO/BPFI/BSF RF):
-    Test accuracy: 70.42%
-    Physics-informed envelope features recover most of the gap
-
-  Takeaway: load shift is easy for FFT features; unknown defect size is
-  hard; characteristic-frequency envelope features improve OOD severity
-  generalization with far fewer dimensions (15 vs 255).
+- For Nel_x set to 192, it is necessary to have at least 32 GB of system RAM to handle the large temporary datasets.
